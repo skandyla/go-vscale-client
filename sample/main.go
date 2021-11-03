@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/skandyla/go-client-vscale/vscale"
+	"github.com/skandyla/go-vscale-client"
 )
 
 func main() {
