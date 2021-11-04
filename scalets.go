@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/pkg/errors"
 )
 
 // From outdated SDK
@@ -78,7 +80,7 @@ func (s *ScaletsServiceOp) List() ([]Scalet, error) {
 
 	resp, err := s.client.client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "[list_resp_do]")
 	}
 	defer resp.Body.Close()
 
