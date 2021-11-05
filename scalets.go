@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -93,16 +92,16 @@ type ScaletCreateRequest struct {
 
 // Create Scalet
 func (s *ScaletsServiceOp) Create(createRequest *ScaletCreateRequest) (Scalet, error) {
+	scalet := Scalet{}
+
 	bytesRepresentation, err := json.Marshal(createRequest)
 	if err != nil {
-		log.Fatalln(err)
+		return scalet, errors.Wrap(err, "[ScaletsServiceCreate]")
 	}
-
-	scalet := Scalet{}
 
 	req, err := http.NewRequest(http.MethodPost, s.client.BaseURL+"/v1/scalets", bytes.NewBuffer(bytesRepresentation))
 	if err != nil {
-		return scalet, err
+		return scalet, errors.Wrap(err, "[ScaletsServiceCreate]")
 	}
 	req.Header.Add("X-Token", s.client.Token)
 
