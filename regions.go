@@ -32,7 +32,7 @@ type RegionsServiceOp struct {
 func (s *RegionsServiceOp) List() ([]Location, error) {
 	req, err := http.NewRequest(http.MethodGet, s.client.BaseURL+"/v1/locations", nil)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "[RegionsServiceList]")
 	}
 	req.Header.Add("X-Token", s.client.Token)
 
