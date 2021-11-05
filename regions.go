@@ -3,8 +3,9 @@ package vscale
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
+
+	"github.com/pkg/errors"
 )
 
 type Location struct {
@@ -37,18 +38,18 @@ func (s *RegionsServiceOp) List() ([]Location, error) {
 
 	resp, err := s.client.client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "[RegionsServiceList]")
 	}
 	defer resp.Body.Close()
 
 	var result []Location
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "[RegionsServiceList]")
 	}
 
 	if err = json.Unmarshal(body, &result); err != nil {
-		log.Fatal(err)
+		return nil, errors.Wrap(err, "[RegionsServiceList]")
 	}
 	return result, nil
 }
